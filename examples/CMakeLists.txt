@@ -1,8 +1,8 @@
 if(MSVC)
-  set(WARNING_FLAGS /W4 /WX /wd4244 /wd4702)
+  set(WARNING_FLAGS /W4 /WX)
 else()
-  set(WARNING_FLAGS -Wall -Wextra -pedantic -Werror -Wno-sign-compare
-                    -Wno-unused-parameter)
+  set(WARNING_FLAGS -Wall -Wextra -pedantic -Werror)
 endif()
 
 add_subdirectory(ceres_simple_bundle_adjuster)
+add_subdirectory(gtsam_bal)

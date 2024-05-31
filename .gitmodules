@@ -10,3 +10,9 @@
 [submodule "dependencies/gflags"]
 	path = dependencies/gflags
 	url = https://github.com/gflags/gflags.git
+[submodule "dependencies/gtsam"]
+	path = dependencies/gtsam
+	url = https://github.com/borglab/gtsam.git
+[submodule "dependencies/fmt"]
+	path = dependencies/fmt
+	url = https://github.com/fmtlib/fmt.git

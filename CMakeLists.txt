@@ -5,5 +5,7 @@ project(
   DESCRIPTION "Sample projects using wrenfold."
   LANGUAGES CXX)
 
+find_package(Eigen3 3.3 REQUIRED)
+
 add_subdirectory(dependencies)
 add_subdirectory(examples)
