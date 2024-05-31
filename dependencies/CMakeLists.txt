@@ -1,18 +1,10 @@
-# Create a target for eigen.
-function(add_eigen)
-  set(EIGEN_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/eigen")
-  set(EIGEN3_INCLUDE_DIR
-      ${EIGEN_INCLUDE_DIRS}
-      PARENT_SCOPE)
-  if(NOT TARGET eigen)
-    add_library(eigen INTERFACE IMPORTED GLOBAL)
-    set_target_properties(eigen PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
-                                           "${EIGEN_INCLUDE_DIRS}")
-  endif()
-  # Add alias for ceres:
-  add_library(Eigen3::Eigen ALIAS eigen)
+function(add_libfmt)
+  set(FMT_TEST
+      OFF
+      CACHE BOOL "" FORCE) # Turn off libfmt tests
+  add_subdirectory(fmt EXCLUDE_FROM_ALL) # Don't need to install.
 endfunction()
-add_eigen()
+add_libfmt()
 
 function(add_gflags)
   set(BUILD_TESTING
@@ -68,6 +60,27 @@ function(add_ceres)
   add_subdirectory(ceres-solver)
 endfunction()
 add_ceres()
+
+# GTSAM
+function(add_gtsam)
+  set(GTSAM_USE_SYSTEM_EIGEN ON CACHE BOOL "" FORCE)
+  set(GTSAM_WITH_TBB OFF CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_EXAMPLES_ALWAYS OFF CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_UNSTABLE OFF CACHE BOOL "" FORCE)
+  set(GTSAM_UNSTABLE_BUILD_PYTHON OFF CACHE BOOL "" FORCE)
+  set(GTSAM_USE_QUATERNIONS ON CACHE BOOL "" FORCE)
+  set(GTSAM_THROW_CHEIRALITY_EXCEPTION OFF CACHE BOOL "" FORCE)
+  add_subdirectory(gtsam)
+  if (NOT MSVC)
+    # Silence GTSAM4.2 deprecation warnings:
+    target_compile_options(gtsam PUBLIC -Wno-deprecated-declarations)
+    # Silence OOB access in BearingRangeFactor...
+    target_compile_options(gtsam PRIVATE -Wno-array-bounds -Wno-range-loop-construct)
+  endif ()
+endfunction()
+add_gtsam()
 
 # Create an interface library for the wrenfold runtime headers
 function(add_wrenfold_headers)
