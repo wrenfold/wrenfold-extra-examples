@@ -77,5 +77,6 @@ function(add_wrenfold_headers)
     INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/wrenfold>
               $<INSTALL_INTERFACE:include>)
   target_compile_definitions(wrenfold_runtime INTERFACE -DWF_SPAN_EIGEN_SUPPORT)
+  target_compile_features(wrenfold_runtime INTERFACE cxx_std_17)
 endfunction()
 add_wrenfold_headers()
