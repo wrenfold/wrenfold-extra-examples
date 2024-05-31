@@ -4,3 +4,9 @@
 [submodule "dependencies/eigen"]
 	path = dependencies/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "dependencies/glog"]
+	path = dependencies/glog
+	url = https://github.com/google/glog.git
+[submodule "dependencies/gflags"]
+	path = dependencies/gflags
+	url = https://github.com/gflags/gflags.git
