@@ -35,7 +35,7 @@
 // This does not use the best configuration for solving; see the more involved
 // bundle_adjuster.cc file for details.
 
-#include <wrenfold/span_eigen.h>
+#include <wrenfold/span.h>
 
 #include <cmath>
 #include <cstdio>

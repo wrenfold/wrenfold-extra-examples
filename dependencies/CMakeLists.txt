@@ -85,6 +85,8 @@ add_gtsam()
 # Create an interface library for the wrenfold runtime headers
 function(add_wrenfold_headers)
   add_library(wrenfold_runtime INTERFACE)
+  target_sources(wrenfold_runtime INTERFACE wrenfold/wrenfold/span.h
+                                            wrenfold/wrenfold/span_detail.h)
   target_include_directories(
     wrenfold_runtime
     INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/wrenfold>
