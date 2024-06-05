@@ -13,3 +13,6 @@
 [submodule "dependencies/fmt"]
 	path = dependencies/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "dependencies/sophus"]
+	path = dependencies/sophus
+	url = https://github.com/strasdat/Sophus.git

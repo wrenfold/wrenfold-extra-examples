@@ -24,9 +24,15 @@ function(add_glog)
   set(BUILD_TESTING
       OFF
       CACHE BOOL "" FORCE)
-  set(WITH_GFLAGS OFF CACHE BOOL "" FORCE)
-  set(WITH_GTEST OFF CACHE BOOL "" FORCE)
-  set(WITH_UNWIND OFF CACHE BOOL "" FORCE)
+  set(WITH_GFLAGS
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WITH_GTEST
+      OFF
+      CACHE BOOL "" FORCE)
+  set(WITH_UNWIND
+      OFF
+      CACHE BOOL "" FORCE)
   add_subdirectory(glog)
 endfunction()
 add_glog()
@@ -63,24 +69,55 @@ add_ceres()
 
 # GTSAM
 function(add_gtsam)
-  set(GTSAM_USE_SYSTEM_EIGEN ON CACHE BOOL "" FORCE)
-  set(GTSAM_WITH_TBB OFF CACHE BOOL "" FORCE)
-  set(GTSAM_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-  set(GTSAM_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-  set(GTSAM_BUILD_EXAMPLES_ALWAYS OFF CACHE BOOL "" FORCE)
-  set(GTSAM_BUILD_UNSTABLE OFF CACHE BOOL "" FORCE)
-  set(GTSAM_UNSTABLE_BUILD_PYTHON OFF CACHE BOOL "" FORCE)
-  set(GTSAM_USE_QUATERNIONS ON CACHE BOOL "" FORCE)
-  set(GTSAM_THROW_CHEIRALITY_EXCEPTION OFF CACHE BOOL "" FORCE)
+  set(GTSAM_USE_SYSTEM_EIGEN
+      ON
+      CACHE BOOL "" FORCE)
+  set(GTSAM_WITH_TBB
+      OFF
+      CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_DOCS
+      OFF
+      CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_TESTS
+      OFF
+      CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_EXAMPLES_ALWAYS
+      OFF
+      CACHE BOOL "" FORCE)
+  set(GTSAM_BUILD_UNSTABLE
+      OFF
+      CACHE BOOL "" FORCE)
+  set(GTSAM_UNSTABLE_BUILD_PYTHON
+      OFF
+      CACHE BOOL "" FORCE)
+  set(GTSAM_USE_QUATERNIONS
+      ON
+      CACHE BOOL "" FORCE)
+  set(GTSAM_THROW_CHEIRALITY_EXCEPTION
+      OFF
+      CACHE BOOL "" FORCE)
   add_subdirectory(gtsam)
-  if (NOT MSVC)
+  if(NOT MSVC)
     # Silence GTSAM4.2 deprecation warnings:
     target_compile_options(gtsam PUBLIC -Wno-deprecated-declarations)
     # Silence OOB access in BearingRangeFactor...
-    target_compile_options(gtsam PRIVATE -Wno-array-bounds -Wno-range-loop-construct)
-  endif ()
+    target_compile_options(gtsam PRIVATE -Wno-array-bounds
+                                         -Wno-range-loop-construct)
+  endif()
 endfunction()
 add_gtsam()
+
+# Sophus
+function(add_sophus)
+  set(BUILD_SOPHUS_TESTS
+      OFF
+      CACHE BOOL "" FORCE)
+  set(BUILD_SOPHUS_EXAMPLES
+      OFF
+      CACHE BOOL "" FORCE)
+  add_subdirectory(sophus)
+endfunction()
+add_sophus()
 
 # Create an interface library for the wrenfold runtime headers
 function(add_wrenfold_headers)
