@@ -100,18 +100,11 @@ class GtsamPose3:
         J = sym.jacobian(X_perturbed.to_flat_list(), dw.to_flat_list() + dt.to_flat_list())
         assert J.shape == (7, 6)
 
-        # Substitute zero for the tangent-space perturbation:
-        # TODO: This should be a single call...
-        for var in dw:
-            J = J.subs(var, 0)
-        for var in dt:
-            J = J.subs(var, 0)
+        # Evaluate about perturbation = 0
+        J = J.subs([(var, 0) for var in dw] + [(var, 0) for var in dt])
 
-        # Substitute in the values of `self`:
-        for src, dest in zip(X.to_flat_list(), self.to_flat_list()):
-            J = J.subs(src, dest)
-
-        return J
+        # Substitute the values of self:
+        return J.subs(list(zip(X.to_flat_list(), self.to_flat_list())))
 
     def inverse(self) -> "GtsamPose3":
         """
