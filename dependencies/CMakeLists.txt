@@ -67,6 +67,33 @@ function(add_ceres)
 endfunction()
 add_ceres()
 
+function(add_gtest)
+  set(BUILD_GMOCK
+      OFF
+      CACHE BOOL "" FORCE)
+  set(INSTALL_GTEST
+      OFF
+      CACHE BOOL "" FORCE)
+  add_subdirectory(googletest)
+endfunction()
+add_gtest()
+
+# Google benchmark
+function(add_google_benchmark)
+  set(BENCHMARK_ENABLE_TESTING
+      OFF
+      CACHE BOOL "" FORCE)
+  set(BENCHMARK_ENABLE_INSTALL
+      OFF
+      CACHE BOOL "" FORCE)
+  if(MSVC)
+    # Turn off warning about failure to specify /EHs
+    add_compile_options(/wd4530)
+  endif()
+  add_subdirectory(benchmark)
+endfunction()
+add_google_benchmark()
+
 # GTSAM
 function(add_gtsam)
   set(GTSAM_USE_SYSTEM_EIGEN
