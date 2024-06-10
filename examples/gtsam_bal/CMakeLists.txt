@@ -1,4 +1,4 @@
-add_executable(gtsam_bal gtsam_bal.cc)
+add_executable(gtsam_bal gtsam_bal.cc generated/bundle_adjustment_factor.h)
 target_link_libraries(gtsam_bal PRIVATE gtsam wrenfold_runtime Eigen3::Eigen
                                         fmt::fmt-header-only)
 target_compile_options(gtsam_bal PRIVATE ${WARNING_FLAGS})

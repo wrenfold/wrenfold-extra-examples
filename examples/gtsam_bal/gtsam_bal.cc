@@ -19,7 +19,7 @@
 #include <gtsam/slam/GeneralSFMFactor.h>
 #include <gtsam/slam/dataset.h>
 
-#include <wrenfold/span_eigen.h>
+#include <wrenfold/span.h>
 
 #include "generated/bundle_adjustment_factor.h"
 #include "gtsam/geometry/CalibratedCamera.h"

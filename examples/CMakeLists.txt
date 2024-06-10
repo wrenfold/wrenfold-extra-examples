@@ -6,3 +6,4 @@ endif()
 
 add_subdirectory(ceres_simple_bundle_adjuster)
 add_subdirectory(gtsam_bal)
+add_subdirectory(sophus_pose3_interpolation)
