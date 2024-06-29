@@ -7,5 +7,11 @@ project(
 
 find_package(Eigen3 3.3 REQUIRED)
 
+set(SHARED_WARNING_FLAGS "")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL
+                                             "AppleClang")
+  list(APPEND SHARED_WARNING_FLAGS -Wno-gnu-zero-variadic-macro-arguments)
+endif()
+
 add_subdirectory(dependencies)
 add_subdirectory(examples)

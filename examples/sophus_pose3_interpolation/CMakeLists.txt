@@ -5,7 +5,8 @@ target_link_libraries(
   sophus_pose3_interpolation_test
   PRIVATE wrenfold_runtime Eigen3::Eigen fmt::fmt Sophus::Sophus gtest_main
           gtsam)
-target_compile_options(sophus_pose3_interpolation_test PRIVATE ${WARNING_FLAGS})
+target_compile_options(sophus_pose3_interpolation_test
+                       PRIVATE ${SHARED_WARNING_FLAGS})
 
 if(NOT MSVC)
   target_compile_options(sophus_pose3_interpolation_test
@@ -21,7 +22,7 @@ target_link_libraries(
   PRIVATE wrenfold_runtime Eigen3::Eigen fmt::fmt Sophus::Sophus
           benchmark::benchmark_main gtsam)
 target_compile_options(sophus_pose3_interpolation_bench
-                       PRIVATE ${WARNING_FLAGS})
+                       PRIVATE ${SHARED_WARNING_FLAGS})
 
 if(NOT MSVC)
   target_compile_options(sophus_pose3_interpolation_bench
