@@ -1,0 +1,105 @@
+name: ci
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - '*'
+
+  # Allow manual trigger for this workflow.
+  workflow_dispatch:
+
+env:
+  CACHE_NUMBER: 0
+  env_name: build-env
+  prefix: /home/runner/miniconda3/envs/build-env
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        sys:
+          - { os: windows-2022, shell: pwsh }
+          - { os: ubuntu-latest, shell: "bash -el {0}" }
+          - { os: macos-14, shell: "bash -el {0}" }
+        build_type: [RelWithDebInfo]
+
+    name: ${{ matrix.sys.os }}-${{ matrix.build_type }}
+    runs-on: ${{ matrix.sys.os }}
+    defaults:
+      run:
+        shell: ${{ matrix.sys.shell }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      # Setup mamba, and cache the environment.
+      - name: Setup mambaforge
+        uses: conda-incubator/setup-miniconda@11b562958363ec5770fef326fe8ef0366f8cbf8a # v3.0.1
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          activate-environment: ${{ env.env_name }}
+          use-mamba: true
+
+      - name: Set cache data
+        shell: bash
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.prefix }}
+          key: ${{ matrix.sys.os }}-conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+        id: cache
+
+      - name: Update environment
+        run: |
+          mamba env update -n ${{ env.env_name }} --file environment.yml
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      - if: runner.os != 'Windows'
+        name: Install compilers package
+        run: mamba install compilers==1.7.0
+
+      - name: Dump conda environment
+        run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+
+       # Add MSVC to the command line:
+      - if: runner.os == 'Windows'
+        name: Enable developer command prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+
+      - if: runner.os == 'macOS'
+        name: Select Xcode Version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Create build directory
+        run: cmake -E make_directory ${{github.workspace}}/build-${{matrix.build_type}}
+
+      - if: runner.os != 'Windows'
+        name: Configure
+        working-directory: ${{github.workspace}}/build-${{matrix.build_type}}
+        run: |
+          cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -Wno-deprecated -G Ninja
+
+      - if: runner.os == 'Windows'
+        name: Configure Windows
+        working-directory: ${{github.workspace}}/build-${{matrix.build_type}}
+        run: |
+          cmake ${{github.workspace}} -DCMAKE_C_COMPILER="cl.exe" -DCMAKE_CXX_COMPILER="cl.exe" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -Wno-deprecated -G Ninja
+
+      - name: Build
+        working-directory: ${{github.workspace}}/build-${{matrix.build_type}}
+        run: |
+          cmake --build . --config ${{matrix.build_type}}
