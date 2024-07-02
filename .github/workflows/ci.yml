@@ -20,7 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         sys:
-          - { os: windows-2022, shell: pwsh }
+          # TODO: Fix the windows build issues stemming from cmake/boost.
+          # - { os: windows-2022, shell: pwsh }
           - { os: ubuntu-latest, shell: "bash -el {0}" }
           - { os: macos-14, shell: "bash -el {0}" }
         build_type: [RelWithDebInfo]
