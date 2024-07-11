@@ -4,10 +4,9 @@ Generate the Snavely reprojection error via wrenfold.
 
 from pathlib import Path
 
-from wrenfold import sym
-from wrenfold import code_generation
+from wrenfold import code_generation, sym
 from wrenfold.geometry import Quaternion
-from wrenfold.type_annotations import Vector9, Vector3, Vector2
+from wrenfold.type_annotations import Vector2, Vector3, Vector9
 
 
 def snavely_reprojection_error(camera: Vector9, point: Vector3, measured_xy: Vector2):

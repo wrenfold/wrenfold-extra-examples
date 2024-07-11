@@ -8,13 +8,10 @@ likely adapt this to work with your own SE(3) pose type.
 
 from pathlib import Path
 
-from wrenfold import sym
-from wrenfold import code_generation
+from wrenfold import ast, code_generation, sym, type_info
 from wrenfold.type_annotations import FloatScalar
-from wrenfold import ast
-from wrenfold import type_info
 
-from ..pose3 import Rot3, Pose3
+from ..pose3 import Pose3, Rot3
 
 
 class SophusCppGenerator(code_generation.CppGenerator):

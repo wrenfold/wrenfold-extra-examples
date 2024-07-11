@@ -1,9 +1,8 @@
 import dataclasses
-import typing as T
 import functools
+import typing as T
 
-from wrenfold import sym
-from wrenfold import geometry
+from wrenfold import geometry, sym
 from wrenfold.type_annotations import FloatScalar, Vector3, Vector6
 
 

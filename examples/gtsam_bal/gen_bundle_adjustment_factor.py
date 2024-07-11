@@ -3,16 +3,13 @@ Generate a GTSAM reprojection error for use with BAL datasets.
 """
 
 import dataclasses
-from pathlib import Path
 import typing as T
+from pathlib import Path
 
-from wrenfold import sym
-from wrenfold import code_generation
-from wrenfold.type_annotations import FloatScalar, Vector3, Vector2
-from wrenfold import ast
-from wrenfold import type_info
+from wrenfold import ast, code_generation, sym, type_info
+from wrenfold.type_annotations import FloatScalar, Vector2, Vector3
 
-from ..pose3 import Rot3, Pose3
+from ..pose3 import Pose3, Rot3
 
 
 @dataclasses.dataclass
