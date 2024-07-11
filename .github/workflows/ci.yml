@@ -89,6 +89,14 @@ jobs:
         working-directory: ${{github.workspace}}
         run: pre-commit run --all-files
 
+      - if: runner.os == 'Linux'
+        name: Install wrenfold
+        run: pip install --no-cache-dir wrenfold==0.0.5
+
+      - if: runner.os == 'Linux'
+        name: Generate examples
+        run: python examples/generate_examples.py
+
       - name: Create build directory
         run: cmake -E make_directory ${{github.workspace}}/build-${{matrix.build_type}}
 
