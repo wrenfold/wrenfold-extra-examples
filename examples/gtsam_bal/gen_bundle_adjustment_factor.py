@@ -22,8 +22,8 @@ class Cal3Bundler:
     k1: FloatScalar
     k2: FloatScalar
 
-    def to_flat_list(self) -> T.List[sym.Expr]:
-        return [self.f, self.k1, self.k2]
+    def to_vector(self) -> sym.MatrixExpr:
+        return sym.vector(self.f, self.k1, self.k2)
 
     def project(self, p: Vector3) -> Vector2:
         """
@@ -48,8 +48,8 @@ class SfmCamera:
     pose: Pose3
     calibration: Cal3Bundler
 
-    def to_flat_list(self) -> T.List[sym.Expr]:
-        return self.pose.to_flat_list() + self.calibration.to_flat_list()
+    def to_vector(self) -> sym.MatrixExpr:
+        return sym.vstack([self.pose.to_vector(), self.calibration.to_vector()])
 
 
 class GtsamCppGenerator(code_generation.CppGenerator):
@@ -90,7 +90,7 @@ def bundle_adjustment_factor(camera: SfmCamera, p_world: Vector3):
     p_image = camera.calibration.project(p_cam)
 
     # Compute jacobian wrt the flattened pose and intrinsic model:
-    p_image_D_camera = sym.jacobian(p_image, camera.to_flat_list())
+    p_image_D_camera = sym.jacobian(p_image, camera.to_vector())
     assert p_image_D_camera.shape == (2, 10)
 
     # Convert it to be with respect to the right-tangent space of the camera pose:
