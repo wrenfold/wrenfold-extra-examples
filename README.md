@@ -20,3 +20,5 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -Wno-deprecated
 cmake --build .
 ```
+
+Alternatively, there is an Ubuntu [Dockerfile](./Dockerfile).

@@ -14,7 +14,8 @@ jobs:
       matrix:
         sys:
           - { os: ubuntu-24.04, shell: "bash -el {0}" }
-          - { os: macos-14, shell: "bash -el {0}" }
+          # TODO: Resolve gtsam build issues on OSX.
+          # - { os: macos-14, shell: "bash -el {0}" }
         build_type: [RelWithDebInfo]
 
     name: ${{ matrix.sys.os }}-${{ matrix.build_type }}
