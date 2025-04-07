@@ -109,9 +109,9 @@ def bundle_adjustment_factor(camera: SfmCamera, p_world: Vector3):
 
 
 def main():
-    code = code_generation.generate_function(
-        func=bundle_adjustment_factor, generator=GtsamCppGenerator())
-    code = code_generation.CppGenerator.apply_preamble(code, namespace="gen")
+    generator = code_generation.CppGenerator()
+    code = code_generation.generate_function(func=bundle_adjustment_factor, generator=generator)
+    code = generator.apply_preamble(code, namespace="gen")
     output_path = (Path(__file__).parent.absolute() / "generated" / "bundle_adjustment_factor.h")
     code_generation.mkdir_and_write_file(code=code, path=output_path)
 

@@ -51,9 +51,9 @@ def snavely_reprojection_error(camera: Vector9, point: Vector3, measured_xy: Vec
 
 
 def main():
-    code = code_generation.generate_function(
-        func=snavely_reprojection_error, generator=code_generation.CppGenerator())
-    code = code_generation.CppGenerator.apply_preamble(code, namespace="gen")
+    generator = code_generation.CppGenerator()
+    code = code_generation.generate_function(func=snavely_reprojection_error, generator=generator)
+    code = generator.apply_preamble(code, namespace="gen")
     output_path = (Path(__file__).parent.absolute() / "generated" / "snavely_reprojection_error.h")
     code_generation.mkdir_and_write_file(code=code, path=output_path)
 
