@@ -5,6 +5,9 @@ project(
   DESCRIPTION "Sample projects using wrenfold."
   LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(Eigen3 3.3 REQUIRED)
 
 set(SHARED_WARNING_FLAGS "")

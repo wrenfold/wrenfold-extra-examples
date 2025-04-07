@@ -138,18 +138,18 @@ def pose3_interpolate_first_order(pose_a: Pose3, pose_b: Pose3, alpha: FloatScal
 
 
 def main():
+    generator = SophusCppGenerator()
     code = "\n\n".join([
         code_generation.generate_function(
             func=pose3_interpolate,
-            generator=SophusCppGenerator(),
+            generator=generator,
         ),
         code_generation.generate_function(
             func=pose3_interpolate_first_order,
-            generator=SophusCppGenerator(),
+            generator=generator,
         ),
     ])
-    code = code_generation.CppGenerator.apply_preamble(
-        code, namespace="gen", imports="#include <sophus/se3.hpp>")
+    code = generator.apply_preamble(code, namespace="gen", imports="#include <sophus/se3.hpp>")
     output_path = Path(__file__).parent.absolute() / "generated" / "pose3_interpolate.h"
     code_generation.mkdir_and_write_file(code=code, path=output_path)
 
