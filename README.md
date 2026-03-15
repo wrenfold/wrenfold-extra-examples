@@ -1,8 +1,6 @@
 # wrenfold-extra-examples
 
-This repository contains additional examples for the [wrenfold](https://wrenfold.org) code-generation framework. These samples in this repository are intended to illustrate how generated code can be integrated into different optimizers and third-party frameworks.
-
-For examples of using and customizing wrenfold code-generation, see the [main repo](https://github.com/wrenfold/wrenfold/tree/main/examples).
+This repository is archived, and the supported examples have been merged into the [main repository](https://github.com/wrenfold/wrenfold).
 
 ## Building
 
